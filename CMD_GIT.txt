@@ -62,3 +62,15 @@ $ git reset --hard HEAD@{1}
 Chú ý: bạn cần phải chắc rằng không ai đang pull code lỗi của bạn hoặc đang cố gắng commit tiếp theo sau lần commit lỗi của bạn, vì bạn sẽ xóa nó.
  Đây là một việc làm khá nguy hiểm nên cần cân nhắc kỹ lưỡng trước khi thực hiện
 
+- Muốn xem phần sai khác của file được chỉnh sửa
++ git diff
+- Muốn di chuyển, thay đổi tên thư mục và file
+ + git mv <oldfilename> <newfilename>
+
+- Muốn xóa file không phải là đối tượng quản lý
+ + git clean
+-  Muốn bỏ file đã đăng ký trong Index
++ git reset HEAD -- <file>
+
+
+https://backlog.com/git-tutorial/vn/reference/basic.html#sec8
