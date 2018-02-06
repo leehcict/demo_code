@@ -1,0 +1,64 @@
+﻿- git config –global user.name
+- git config –global user.email
+- git init
+- git remote add origin
+- git remote -v
+- git add */ --all
+- git status
+- git commit -m “message”
+- git commit -a -m “message” để commit luôn, bỏ qua trạng thái modified
+- Để đưa một tập tin ra khỏi staging area bạn dùng lệnh $ git reset HEAD tên-file
+- để xóa file bạn dùng lệnh $ rm file_name (chưa xóa hẳn khỏi ổ cứng), để xóa hẳn bạn dùng lệnh git $ rm -f file_name
+
+- Khi có người push dữ liệu của họ lên và bạn muốn kiểm tra và lấy về máy mình, dùng lệnh $ git pull origin master
+
+** Branch (rẽ nhánh)
+
+- $ git branch <tên branch>
+- để xem các branch hiện có bạn dùng lệnh $ git branch
+-  git checkout <tên branch cần chuyển qua>
+- Nếu chưa có branch cần chuyển, bạn cũng có thể vừa tạo vừa chuyển qua chỉ với 1 lệnh 
+  +git checkout -b <tên branch cần chuyển qua>
+- muốn gộp các thay đổi trên branch phụ vừa làm việc vào branch chính, bạn dùng lệnh 
+ $ git merge tên_branch
+- $ git branch -d feature
+
+- clone ($ git clone remote_repository) giúp sao chép toàn bộ dữ liệu và các thiết lập trên remote repository và tự động tạo ra một master branch trên máy tính của bạn. Lệnh này chỉ nên sử dụng khi bạn cần tạo mới một local repository mới trên máy tính với toàn bộ dữ liệu và thiết lập của remote repository.
+- fetch ($ git fetch remote_repository) lấy toàn bộ dữ liệu từ remote repository nhưng sẽ cho phép bạn gộp thủ công vào một branch nào đó
+- git remote set-url origin <link repository của bạn>
+
+
+** Bây giờ, bạn đang có source trên máy nhưng source gốc của nó đã được người khác push dữ liệu mới lên. 
+Và bạn muốn update lại source trên máy để nó giống với trên source gốc thì làm sao?
+ Đầu tiên bạn phải chắc chắn source trên máy bạn chưa được chỉnh sửa gì kể từ lần cuối bạn push nó lên (vì nếu bạn sửa mà chưa push lên,
+ bạn lại update trên remote repo xuống sẽ dễ gây conflict).
+- lỡ chỉnh sửa rồi thì sao? À thì git add, git commit nhưng đừng git push, sau đó dùng lệnh này
+ git pull origin <branch>
+
+
+để kéo phần update mới về. Sẽ có 2 trường hợp xảy ra:
+
+1. Phần code người khác up lên trước bạn không dính dáng tới file nào bạn đang sửa dưới local,
+ hoặc dính nhưng không trùng với phần code bạn đang sửa ==> May phước cho bạn là nó sẽ tự merge, bạn không cần làm gì.
+
+2. Ngược lại với 1, sẽ có thông báo conflict xuất hiện và bạn phải fix bằng tay. 
+Git đã hỗ trợ đánh dấu những phần bị conflict thành 2 bản (1 của người ta, 1 của bạn) nên sửa cũng khá dễ.
+ Sau khi sửa và lưu lại thì bạn dùng lại bộ ba phép thuật git add, git commit và git push lại là thành công.
+
+- Để xem lại chi tiết lịch sử các lần commit, bạn sử dụng lệnh $ git log
+$ git show <đoạn hash>
+--------------------------------------------------------
+- Nếu một ngày đẹp trời bạn commit code và push lên remote repository, thật không may lần commit đó đã làm hỏng ứng dụng. 
+Thay vì sửa lại dưới local và cứ để nguyên cái lỗi ở trên remote, sau khi sửa xong thì push cái mới lên,
+ bạn lại muốn xóa bỏ dữ liệu của lần commit đó trên remote. Cách đơn giản nhất là bạn đưa HEAD của source về lại lần commit trước (trước commit muốn xóa),
+ sau đó push code của lần commit trước lên, sau đó đưa HEAD quay về lại lần commit muốn xóa.
+
+$ git reset --hard HEAD@{1}
+
+$ git push -f origin master
+
+$ git reset --hard HEAD@{1}
+
+Chú ý: bạn cần phải chắc rằng không ai đang pull code lỗi của bạn hoặc đang cố gắng commit tiếp theo sau lần commit lỗi của bạn, vì bạn sẽ xóa nó.
+ Đây là một việc làm khá nguy hiểm nên cần cân nhắc kỹ lưỡng trước khi thực hiện
+
